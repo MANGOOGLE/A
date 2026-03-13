@@ -1,0 +1,738 @@
+Practical 1: 4-Digit Number - Product of Digits 
+
+
+default.aspx 
+
+HTML
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="WebApplication1._default" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Product of Digits</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            Enter 4 Digit Number:
+            <asp:TextBox ID="txtNumber" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            <asp:Button ID="btnProduct" runat="server" Text="Find Product" OnClick="btnProduct_Click" />
+            <br /><br />
+            
+            <asp:Label ID="lblResult" runat="server"></asp:Label>
+        </div>
+    </form>
+</body>
+</html>
+
+default.aspx.cs 
+
+C#
+using System;
+using System.Web.UI;
+
+namespace WebApplication1
+{
+    public partial class _default : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+        }
+
+        protected void btnProduct_Click(object sender, EventArgs e)
+        {
+            int num = int.Parse(txtNumber.Text);
+            int product = 1;
+            
+            while (num > 0)
+            {
+                int digit = num % 10;
+                product = product * digit;
+                num = num / 10;
+            }
+            
+            lblResult.Text = "Product of digits = " + product;
+        }
+    }
+}
+
+Practical 2(a): Phone Book Web Application 
+
+
+default.aspx 
+
+HTML
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="WebApplication1._default" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Phone Book</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            Name:
+            <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            Phone Number:
+            <asp:TextBox ID="txtPhone" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            <asp:Button ID="btnAdd" runat="server" Text="Add" OnClick="btnAdd_Click" />
+            <br /><br />
+            
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="true"></asp:GridView>
+        </div>
+    </form>
+</body>
+</html>
+
+default.aspx.cs 
+
+C#
+using System;
+using System.Data;
+using System.Web.UI;
+
+namespace WebApplication1
+{
+    public partial class _default : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Name");
+                dt.Columns.Add("Phone Number");
+                ViewState["PhoneBook"] = dt;
+            }
+        }
+
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)ViewState["PhoneBook"];
+            dt.Rows.Add(txtName.Text, txtPhone.Text);
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+            ViewState["PhoneBook"] = dt;
+        }
+    }
+}
+
+Practical 2(b): Pythagoras Theorem 
+
+
+default.aspx 
+
+HTML
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="WebApplication1._default" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Pythagoras Theorem</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            Enter Side A:
+            <asp:TextBox ID="txtA" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            Enter Side B:
+            <asp:TextBox ID="txtB" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            <asp:Button ID="btnCalculate" runat="server" Text="Calculate" OnClick="btnCalculate_Click" />
+            <br /><br />
+            
+            <asp:Label ID="lblResult" runat="server"></asp:Label>
+        </div>
+    </form>
+</body>
+</html>
+
+default.aspx.cs 
+
+C#
+using System;
+using System.Web.UI;
+
+namespace WebApplication1
+{
+    public partial class _default : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+        }
+
+        protected void btnCalculate_Click(object sender, EventArgs e)
+        {
+            double a = double.Parse(txtA.Text);
+            double b = double.Parse(txtB.Text);
+            double c = Math.Sqrt((a * a) + (b * b));
+            
+            lblResult.Text = "Hypotenuse = " + c;
+        }
+    }
+}
+
+Practical 3(a): Demonstration of Basic Operations 
+
+
+default.aspx 
+
+HTML
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="WebApplication1._default" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Basic Operations</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <h3>Fibonacci Series</h3>
+            Enter N:
+            <asp:TextBox ID="txtFib" runat="server"></asp:TextBox>
+            <asp:Button ID="btnFib" runat="server" Text="Generate" OnClick="btnFib_Click" />
+            <br />
+            <asp:Label ID="lblFib" runat="server"></asp:Label>
+            <br /><br />
+            
+            <h3>Prime Number Check</h3>
+            Enter Number:
+            <asp:TextBox ID="txtPrime" runat="server"></asp:TextBox>
+            <asp:Button ID="btnPrime" runat="server" Text="Check" OnClick="btnPrime_Click" />
+            <br />
+            <asp:Label ID="lblPrime" runat="server"></asp:Label>
+            <br /><br />
+            
+            <h3>Vowel Test</h3>
+            Enter Character:
+            <asp:TextBox ID="txtVowel" runat="server"></asp:TextBox>
+            <asp:Button ID="btnVowel" runat="server" Text="Check" OnClick="btnVowel_Click" />
+            <br />
+            <asp:Label ID="lblVowel" runat="server"></asp:Label>
+            <br /><br />
+            
+            <h3>Reverse Number and Sum of Digits</h3>
+            Enter Number:
+            <asp:TextBox ID="txtReverse" runat="server"></asp:TextBox>
+            <asp:Button ID="btnReverse" runat="server" Text="Process" OnClick="btnReverse_Click" />
+            <br />
+            <asp:Label ID="lblReverse" runat="server"></asp:Label>
+        </div>
+    </form>
+</body>
+</html>
+
+default.aspx.cs 
+
+C#
+using System;
+using System.Web.UI;
+
+namespace WebApplication1
+{
+    public partial class _default : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+        }
+
+        protected void btnFib_Click(object sender, EventArgs e)
+        {
+            int n = int.Parse(txtFib.Text);
+            int a = 0, b = 1;
+            string result = "0 1 ";
+            
+            for (int i = 2; i < n; i++)
+            {
+                int c = a + b;
+                result += c + " ";
+                a = b;
+                b = c;
+            }
+            lblFib.Text = result;
+        }
+
+        protected void btnPrime_Click(object sender, EventArgs e)
+        {
+            int n = int.Parse(txtPrime.Text);
+            bool prime = true;
+            
+            for (int i = 2; i <= n / 2; i++)
+            {
+                if (n % i == 0)
+                {
+                    prime = false;
+                    break;
+                }
+            }
+            lblPrime.Text = prime ? "Prime Number" : "Not a Prime Number";
+        }
+
+        protected void btnVowel_Click(object sender, EventArgs e)
+        {
+            char ch = char.Parse(txtVowel.Text.ToLower());
+            
+            if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u')
+                lblVowel.Text = "It is a Vowel";
+            else
+                lblVowel.Text = "It is not a Vowel";
+        }
+
+        protected void btnReverse_Click(object sender, EventArgs e)
+        {
+            int n = int.Parse(txtReverse.Text);
+            int rev = 0, sum = 0;
+            
+            while (n > 0)
+            {
+                int d = n % 10;
+                rev = rev * 10 + d;
+                sum += d;
+                n /= 10;
+            }
+            lblReverse.Text = "Reverse: " + rev + " | Sum of digits: " + sum;
+        }
+    }
+}
+
+Practical 3(b): Demonstration of Basic Mathematical Conversions 
+
+
+default.aspx 
+
+HTML
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="WebApplication1._default" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Conversions</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <h3>Factorial</h3>
+            Enter Number:
+            <asp:TextBox ID="txtFact" runat="server"></asp:TextBox>
+            <asp:Button ID="btnFact" runat="server" Text="Find" OnClick="btnFact_Click" />
+            <br />
+            <asp:Label ID="lblFact" runat="server"></asp:Label>
+            <br /><br />
+            
+            <h3>Money Conversion (USD to INR)</h3>
+            Enter Amount (USD):
+            <asp:TextBox ID="txtMoney" runat="server"></asp:TextBox>
+            <asp:Button ID="btnMoney" runat="server" Text="Convert" OnClick="btnMoney_Click" />
+            <br />
+            <asp:Label ID="lblMoney" runat="server"></asp:Label>
+            <br /><br />
+            
+            <h3>Quadratic Equation</h3>
+            a: <asp:TextBox ID="txtA" runat="server"></asp:TextBox>
+            b: <asp:TextBox ID="txtB" runat="server"></asp:TextBox>
+            c: <asp:TextBox ID="txtC" runat="server"></asp:TextBox>
+            <asp:Button ID="btnQuad" runat="server" Text="Solve" OnClick="btnQuad_Click" />
+            <br />
+            <asp:Label ID="lblQuad" runat="server"></asp:Label>
+            <br /><br />
+            
+            <h3>Temperature Conversion</h3>
+            Enter Temperature:
+            <asp:TextBox ID="txtTemp" runat="server"></asp:TextBox>
+            <asp:DropDownList ID="ddlTemp" runat="server">
+                <asp:ListItem Text="Celsius to Fahrenheit" Value="CtoF" />
+                <asp:ListItem Text="Fahrenheit to Celsius" Value="FtoC" />
+            </asp:DropDownList>
+            <asp:Button ID="btnTemp" runat="server" Text="Convert" OnClick="btnTemp_Click" />
+            <br />
+            <asp:Label ID="lblTemp" runat="server"></asp:Label>
+        </div>
+    </form>
+</body>
+</html>
+
+default.aspx.cs 
+
+C#
+using System;
+using System.Web.UI;
+
+namespace WebApplication1
+{
+    public partial class _default : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+        }
+
+        protected void btnFact_Click(object sender, EventArgs e)
+        {
+            int n = int.Parse(txtFact.Text);
+            int fact = 1;
+            
+            for (int i = 1; i <= n; i++)
+                fact *= i;
+                
+            lblFact.Text = "Factorial = " + fact;
+        }
+
+        protected void btnMoney_Click(object sender, EventArgs e)
+        {
+            double usd = double.Parse(txtMoney.Text);
+            double inr = usd * 80; // simple fixed rate for exam
+            
+            lblMoney.Text = "Amount in INR = " + inr;
+        }
+
+        protected void btnQuad_Click(object sender, EventArgs e)
+        {
+            double a = double.Parse(txtA.Text);
+            double b = double.Parse(txtB.Text);
+            double c = double.Parse(txtC.Text);
+            
+            double d = (b * b) - (4 * a * c);
+            double r1 = (-b + Math.Sqrt(d)) / (2 * a);
+            double r2 = (-b - Math.Sqrt(d)) / (2 * a);
+            
+            lblQuad.Text = "Roots are: " + r1 + " and " + r2;
+        }
+
+        protected void btnTemp_Click(object sender, EventArgs e)
+        {
+            double t = double.Parse(txtTemp.Text);
+            
+            if (ddlTemp.SelectedValue == "CtoF")
+                lblTemp.Text = "Result = " + ((t * 9 / 5) + 32);
+            else
+                lblTemp.Text = "Result = " + ((t - 32) * 5 / 9);
+        }
+    }
+}
+
+Practical 4: Server Controls with Validation 
+
+
+default.aspx 
+
+HTML
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="WebApplication1._default" UnobtrusiveValidationMode="None" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Server Controls with Validation</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            Name:
+            <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="rfvName" runat="server" ControlToValidate="txtName" ErrorMessage="Name Required!" ForeColor="Red"></asp:RequiredFieldValidator>
+            <br /><br />
+            
+            Age:
+            <asp:TextBox ID="txtAge" runat="server"></asp:TextBox>
+            <asp:RangeValidator ID="rvAge" runat="server" ControlToValidate="txtAge" MinimumValue="1" MaximumValue="100" Type="Integer" ErrorMessage="Age 1-100" ForeColor="Red"></asp:RangeValidator>
+            <br /><br />
+            
+            Email:
+            <asp:TextBox ID="txtEmail" runat="server"></asp:TextBox>
+            <asp:RegularExpressionValidator ID="revEmail" runat="server" ControlToValidate="txtEmail" ValidationExpression="\w+@\w+\.\w+" ErrorMessage="Invalid Email" ForeColor="Red"></asp:RegularExpressionValidator>
+            <br /><br />
+            
+            <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
+            <br /><br />
+            
+            <asp:Label ID="lblOutput" runat="server"></asp:Label>
+        </div>
+    </form>
+</body>
+</html>
+
+default.aspx.cs 
+
+C#
+using System;
+using System.Web.UI;
+
+namespace WebApplication1
+{
+    public partial class _default : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            // Disable unobtrusive validation to avoid jQuery dependency
+            this.UnobtrusiveValidationMode = System.Web.UI.UnobtrusiveValidationMode.None;
+        }
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            lblOutput.Text = "Name: " + txtName.Text + "<br/>" +
+                             "Age: " + txtAge.Text + "<br/>" +
+                             "Email: " + txtEmail.Text;
+        }
+    }
+}
+
+Practical 5(a): Connected Database Operations using ASP.NET 
+
+
+default.aspx 
+
+HTML
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="WebApplication1._default" UnobtrusiveValidationMode="None" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Connected Database</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            Id:
+            <asp:TextBox ID="txtId" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            Name:
+            <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            Age:
+            <asp:TextBox ID="txtAge" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            Email:
+            <asp:TextBox ID="txtEmail" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            <asp:Button ID="btnInsert" runat="server" Text="Insert" OnClick="btnInsert_Click" />
+            <asp:Button ID="btnUpdate" runat="server" Text="Update" OnClick="btnUpdate_Click" />
+            <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" />
+            <asp:Button ID="btnSelect" runat="server" Text="Select All" OnClick="btnSelect_Click" />
+            <br /><br />
+            
+            <asp:GridView ID="GridView1" runat="server"></asp:GridView>
+            <br />
+            <asp:Label ID="lblOutput" runat="server"></asp:Label>
+        </div>
+    </form>
+</body>
+</html>
+
+default.aspx.cs 
+
+C#
+using System;
+using System.Data.SqlClient;
+using System.Web.UI;
+
+namespace WebApplication1
+{
+    public partial class _default : Page
+    {
+        SqlConnection con;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB; AttachDbFilename=|DataDirectory|\StudentDB.mdf; Integrated Security=True");
+        }
+
+        protected void btnInsert_Click(object sender, EventArgs e)
+        {
+            con.Open();
+            SqlCommand cmd = new SqlCommand("INSERT INTO Student (Name, Age, Email) VALUES('" + txtName.Text + "'," + txtAge.Text + ",'" + txtEmail.Text + "')", con);
+            cmd.ExecuteNonQuery();
+            con.Close();
+            lblOutput.Text = "Record Inserted Successfully";
+        }
+
+        protected void btnUpdate_Click(object sender, EventArgs e)
+        {
+            con.Open();
+            SqlCommand cmd = new SqlCommand("UPDATE Student SET Name='" + txtName.Text + "', Age=" + txtAge.Text + ", Email='" + txtEmail.Text + "' WHERE Id=" + txtId.Text, con);
+            cmd.ExecuteNonQuery();
+            con.Close();
+            lblOutput.Text = "Record Updated Successfully";
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            con.Open();
+            SqlCommand cmd = new SqlCommand("DELETE FROM Student WHERE Id=" + txtId.Text, con);
+            cmd.ExecuteNonQuery();
+            con.Close();
+            lblOutput.Text = "Record Deleted Successfully";
+        }
+
+        protected void btnSelect_Click(object sender, EventArgs e)
+        {
+            con.Open();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Student", con);
+            SqlDataReader dr = cmd.ExecuteReader();
+            GridView1.DataSource = dr;
+            GridView1.DataBind();
+            con.Close();
+        }
+    }
+}
+
+Practical 5(b): Disconnected Database Operations using ASP.NET 
+
+
+default.aspx 
+
+HTML
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="WebApplication1_Disconnected._default" UnobtrusiveValidationMode="None" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Disconnected Database</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            Id:
+            <asp:TextBox ID="txtId" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            Name:
+            <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            Age:
+            <asp:TextBox ID="txtAge" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            Email:
+            <asp:TextBox ID="txtEmail" runat="server"></asp:TextBox>
+            <br /><br />
+            
+            <asp:Button ID="btnInsert" runat="server" Text="Insert" OnClick="btnInsert_Click" />
+            <asp:Button ID="btnUpdate" runat="server" Text="Update" OnClick="btnUpdate_Click" />
+            <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" />
+            <asp:Button ID="btnSelect" runat="server" Text="Select All" OnClick="btnSelect_Click" />
+            <br /><br />
+            
+            <asp:GridView ID="GridView1" runat="server"></asp:GridView>
+            <br />
+            <asp:Label ID="lblOutput" runat="server"></asp:Label>
+        </div>
+    </form>
+</body>
+</html>
+
+default.aspx.cs 
+
+C#
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.UI;
+
+namespace WebApplication1_Disconnected
+{
+    public partial class _default : Page
+    {
+        SqlConnection con;
+        SqlDataAdapter da;
+        DataSet ds;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB; AttachDbFilename=|DataDirectory|\StudentDB.mdf; Integrated Security=True");
+        }
+
+        protected void btnInsert_Click(object sender, EventArgs e)
+        {
+            string sql = "INSERT INTO Student (Name, Age, Email) VALUES('" + txtName.Text + "'," + txtAge.Text + ",'" + txtEmail.Text + "')";
+            da = new SqlDataAdapter(sql, con);
+            ds = new DataSet();
+            da.Fill(ds);
+            lblOutput.Text = "Record Inserted Successfully";
+        }
+
+        protected void btnUpdate_Click(object sender, EventArgs e)
+        {
+            string sql = "UPDATE Student SET Name='" + txtName.Text + "', Age=" + txtAge.Text + ", Email='" + txtEmail.Text + "' WHERE Id=" + txtId.Text;
+            da = new SqlDataAdapter(sql, con);
+            ds = new DataSet();
+            da.Fill(ds);
+            lblOutput.Text = "Record Updated Successfully";
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            string sql = "DELETE FROM Student WHERE Id=" + txtId.Text;
+            da = new SqlDataAdapter(sql, con);
+            ds = new DataSet();
+            da.Fill(ds);
+            lblOutput.Text = "Record Deleted Successfully";
+        }
+
+        protected void btnSelect_Click(object sender, EventArgs e)
+        {
+            string sql = "SELECT * FROM Student";
+            da = new SqlDataAdapter(sql, con);
+            ds = new DataSet();
+            da.Fill(ds, "Student");
+            GridView1.DataSource = ds.Tables["Student"];
+            GridView1.DataBind();
+        }
+    }
+}
+
+Practical 6: AngularJS SPA - Student Registration 
+
+
+default.aspx 
+
+HTML
+<%@ Page Language="C#" AutoEventWireup="true" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="myApp">
+<head runat="server">
+    <title>AngularJS SPA</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-controller="myCtrl">
+    <h2>Student Registration</h2>
+    
+    Name:
+    <input type="text" ng-model="student.name" />
+    <br /><br />
+    
+    Course:
+    <input type="text" ng-model="student.course" />
+    <br /><br />
+    
+    <button ng-click="register()">Register</button>
+    
+    <hr />
+    
+    <h3>Student Details</h3>
+    Name: {{student.name}} <br />
+    Course: {{student.course}}
+</body>
+</html>
+
+app.js 
+
+JavaScript
+var app = angular.module("myApp", []);
+
+app.controller("myCtrl", function ($scope) {
+    $scope.student = {
+        name: "",
+        course: ""
+    };
+    
+    $scope.register = function () {
+        alert("Student Registered Successfully");
+    };
+});
