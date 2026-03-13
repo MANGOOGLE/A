@@ -1,4 +1,4 @@
-BSc IT Practical Quick Guide (Shortest Codes)
+
 1. Fibonacci Series (ASP.NET C#)
 Code:
 protected void B1_Click(object sender, EventArgs e)
