@@ -1,0 +1,1120 @@
+Q.1
+Aim: To obtain 4 int values from user and display its product
+Code
+
+Index.cshtml
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width" />
+<title></title>
+</head>
+<body>
+
+<div ng-app="myApp" ng-controller="CalcController" style="margin:20px;">
+<h2>Multiply 4 Numbers</h2>
+
+<p>Number 1: <input type="number" ng-model="n1" /></p>
+<p>Number 2: <input type="number" ng-model="n2" /></p>
+<p>Number 3: <input type="number" ng-model="n3" /></p>
+<p>Number 4: <input type="number" ng-model="n4" /></p>
+
+<h3>Product: {{ getProduct() }}</h3>
+
+</div>
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/app.js"></script>
+
+</body>
+</html>
+
+App.js
+
+var app = angular.module("myApp", []);
+
+app.controller("CalcController", function ($scope) {
+
+$scope.n1 = 0;
+$scope.n2 = 0;
+$scope.n3 = 0;
+$scope.n4 = 0;
+
+$scope.getProduct = function () {
+return ($scope.n1 * $scope.n2 * $scope.n3 * $scope.n4);
+};
+
+});
+Q.2 (a)
+Aim: Create a web application to implement phonebook (name–phone) and create CSV file or database.
+Code
+
+Default.aspx
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="FSD._Default" %>
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<form id="form1" runat="server">
+
+<asp:Label runat="server" Text="Phonebook Application"></asp:Label>
+<br><br>
+
+Name:
+<asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+
+<br><br>
+
+Phone:
+<asp:TextBox ID="txtPhone" runat="server"></asp:TextBox>
+
+<br><br>
+
+<asp:Button ID="btnAdd" runat="server" Text="Add" OnClick="btnAdd_Click" />
+
+<br><br>
+
+<asp:GridView ID="GridView1" runat="server"></asp:GridView>
+
+</form>
+
+</body>
+</html>
+
+Default.aspx.cs
+
+using System;
+using System.Data;
+using System.Web.UI;
+
+namespace FSD
+{
+public partial class _Default : Page
+{
+
+DataTable table;
+
+protected void Page_Load(object sender, EventArgs e)
+{
+
+if (!IsPostBack)
+{
+
+table = new DataTable();
+
+table.Columns.Add("Name");
+table.Columns.Add("Phone");
+
+ViewState["Phonebook"] = table;
+
+}
+
+}
+
+protected void btnAdd_Click(object sender, EventArgs e)
+{
+
+table = ViewState["Phonebook"] as DataTable;
+
+DataRow row = table.NewRow();
+
+row["Name"] = txtName.Text;
+row["Phone"] = txtPhone.Text;
+
+table.Rows.Add(row);
+
+ViewState["Phonebook"] = table;
+
+GridView1.DataSource = table;
+GridView1.DataBind();
+
+txtName.Text = "";
+txtPhone.Text = "";
+
+}
+
+}
+}
+Q.2 (b)
+Aim: To find number using Pythagoras theorem
+Code
+
+Index.cshtml
+
+<div ng-app="pApp" ng-controller="pController">
+
+Side a:
+<input type="number" ng-model="a" />
+
+<br><br>
+
+Side b:
+<input type="number" ng-model="b" />
+
+<br><br>
+
+<button ng-click="clc()">Calculate</button>
+
+<h3>Hypotenuse: {{ c }}</h3>
+
+</div>
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/app.js"></script>
+
+App.js
+
+var app = angular.module("pApp", []);
+
+app.controller("pController", function ($scope) {
+
+$scope.clc = function () {
+
+$scope.c = Math.sqrt(($scope.a * $scope.a) + ($scope.b * $scope.b));
+
+};
+
+});
+
+Home.cs
+
+using System.Web.Mvc;
+
+public ActionResult Pythagoras()
+{
+return View();
+}
+
+
+Q.3 (A) (a)
+Aim: To perform Fibonacci Series
+Code
+
+Index.cshtml
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/app.js"></script>
+
+<div ng-app="fApp" ng-controller="fCtrl" style="margin:20px;">
+
+<h2>Fibonacci Series</h2>
+
+Enter Number:
+<input type="number" ng-model="n" />
+
+<br><br>
+
+<button ng-click="Answer()">Answer</button>
+
+<p>{{ result }}</p>
+
+</div>
+
+App.js
+
+var app = angular.module("fApp", []);
+
+app.controller("fCtrl", function ($scope) {
+
+$scope.Answer = function () {
+
+var n = parseInt($scope.n) || 0;
+
+var a = 0, b = 1, c;
+var series = [];
+
+for (var i = 0; i < n; i++) {
+
+series.push(a);
+
+c = a + b;
+a = b;
+b = c;
+
+}
+
+$scope.result = series.join(", ");
+
+};
+
+});
+
+Home.cs
+
+using System.Web.Mvc;
+
+public ActionResult Fibonacci()
+{
+return View();
+}
+Q.3 (A) (b)
+Aim: To perform prime number operation
+Code
+
+Index.cshtml
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/app.js"></script>
+
+<div ng-app="pApp" ng-controller="pCtrl" style="margin:20px;">
+
+<h2>Check for Prime Number</h2>
+
+Enter Number:
+<input type="number" ng-model="num">
+
+<br><br>
+
+<button ng-click="check()">Check</button>
+
+<p>{{ message }}</p>
+
+</div>
+
+App.js
+
+var app = angular.module("pApp", []);
+
+app.controller("pCtrl", function ($scope) {
+
+$scope.check = function () {
+
+var n = parseInt($scope.num);
+
+if (n <= 1) {
+$scope.message = n + " not a prime number";
+return;
+}
+
+for (var i = 2; i <= Math.sqrt(n); i++) {
+
+if (n % i === 0) {
+$scope.message = n + " not a prime number";
+return;
+}
+
+}
+
+$scope.message = n + " prime number";
+
+};
+
+});
+
+Home.cs
+
+using System.Web.Mvc;
+
+public ActionResult Prime()
+{
+return View();
+}
+Q.3 (A) (c)
+Aim: To perform test for vowel
+Code
+
+Index.cshtml
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/app.js"></script>
+
+<div ng-app="vApp" ng-controller="vCtrl" style="margin:20px;">
+
+<h2>Vowel Test</h2>
+
+Enter Text:
+<input type="text" ng-model="z" maxlength="1">
+
+<br><br>
+
+<button ng-click="check()">Check</button>
+
+<p>{{ message }}</p>
+
+</div>
+
+App.js
+
+var app = angular.module("vApp", []);
+
+app.controller("vCtrl", function ($scope) {
+
+$scope.check = function () {
+
+var c = ($scope.z || "").toLowerCase();
+
+if (c === "")
+$scope.message = "Please enter a letter.";
+else if ("aeiou".includes(c))
+$scope.message = c + " vowel";
+else
+$scope.message = c + " not a vowel";
+
+};
+
+});
+
+Home.cs
+
+using System.Web.Mvc;
+
+public ActionResult Vowel()
+{
+return View();
+}
+Q.3 (A) (d)
+Aim: To reverse a number while stating the sum of the digits
+Code
+
+Index.cshtml
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/app.js"></script>
+
+<div ng-app="rApp" ng-controller="rCtrl" style="margin:20px;">
+
+<h2>Reverse Number with Sum of Digits</h2>
+
+Enter Number:
+<input type="number" ng-model="num">
+
+<br><br>
+
+<button ng-click="process()">Result</button>
+
+<p>Reversed {{ reversed }}</p>
+<p>Sum of Digits {{ sum }}</p>
+
+</div>
+
+App.js
+
+var app = angular.module("rApp", []);
+
+app.controller("rCtrl", function ($scope) {
+
+$scope.process = function () {
+
+var n = $scope.num;
+
+if (n === undefined || n === null) {
+$scope.reversed = "";
+$scope.sum = "";
+return;
+}
+
+var s = Math.abs(parseInt(n)).toString();
+
+$scope.reversed = s.split("").reverse().join("");
+
+var total = 0;
+
+for (var i = 0; i < s.length; i++) {
+total += parseInt(s[i]);
+}
+
+$scope.sum = total;
+
+};
+
+});
+
+Home.cs
+
+using System.Web.Mvc;
+
+public ActionResult Reverse()
+{
+return View();
+}
+Q.3 (B) (a)
+Aim: To perform factorial on the number
+Code
+
+Index.cshtml
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/app.js"></script>
+
+<div ng-app="fApp" ng-controller="fCtrl" style="margin:20px;">
+
+<h2>Factorial Value</h2>
+
+Enter Number:
+<input type="number" ng-model="num">
+
+<br><br>
+
+<button ng-click="compute()">Result</button>
+
+<p>Result: {{ result }}</p>
+
+</div>
+
+App.js
+
+var app = angular.module("fApp", []);
+
+app.controller("fCtrl", function ($scope) {
+
+$scope.compute = function () {
+
+var n = parseInt($scope.num);
+var f = 1;
+
+for (var i = 1; i <= n; i++) {
+f *= i;
+}
+
+$scope.result = f;
+
+};
+
+});
+
+Home.cs
+
+using System.Web.Mvc;
+
+public ActionResult Factorial()
+{
+return View();
+}
+Q.3 (B) (b)
+Aim: To perform money conversion operation
+Code
+
+Index.cshtml
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/app.js"></script>
+
+<div ng-app="mApp" ng-controller="mCtrl" style="margin:20px;">
+
+<h2>Money Conversion</h2>
+
+Amount in Rupees:
+<input type="number" ng-model="rupees">
+
+<br><br>
+
+<button ng-click="convert()">Convert</button>
+
+<p>Amount in Dollars: {{ dollars }}</p>
+
+</div>
+
+App.js
+
+var app = angular.module("mApp", []);
+
+app.controller("mCtrl", function ($scope) {
+
+$scope.convert = function () {
+
+var r = Number($scope.rupees);
+$scope.dollars = (r * 0.012).toFixed(2);
+
+};
+
+});
+
+Home.cs
+
+using System.Web.Mvc;
+
+public ActionResult Money()
+{
+return View();
+}
+Q.3 (B) (c)
+Aim: To solve using quadratic equation
+Code
+
+Index.cshtml
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/app.js"></script>
+
+<div ng-app="qApp" ng-controller="qCtrl" style="margin:20px;">
+
+a:
+<input type="number" ng-model="a">
+
+<br><br>
+
+b:
+<input type="number" ng-model="b">
+
+<br><br>
+
+c:
+<input type="number" ng-model="c">
+
+<br><br>
+
+<button ng-click="solve()">Result</button>
+
+<p>x₁ = {{ x1 }}</p>
+<p>x₂ = {{ x2 }}</p>
+
+</div>
+
+App.js
+
+var app = angular.module("qApp", []);
+
+app.controller("qCtrl", function ($scope) {
+
+$scope.solve = function () {
+
+var a = $scope.a;
+var b = $scope.b;
+var c = $scope.c;
+
+var d = (b * b) - (4 * a * c);
+
+$scope.x1 = (-b + Math.sqrt(d)) / (2 * a);
+$scope.x2 = (-b - Math.sqrt(d)) / (2 * a);
+
+};
+
+});
+
+Home.cs
+
+using System.Web.Mvc;
+
+public ActionResult Quadratic()
+{
+return View();
+}
+Q.3 (B) (d)
+Aim: To perform temperature conversion
+Code
+
+Index.cshtml
+
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/app.js"></script>
+
+<div ng-app="tApp" ng-controller="tCtrl" style="margin:20px;">
+
+Enter temp:
+<input type="number" ng-model="t">
+
+<br><br>
+
+<button ng-click="toF()">C to F</button>
+<p>{{ f }}</p>
+
+<br>
+
+<button ng-click="toC()">F to C</button>
+<p>{{ c }}</p>
+
+</div>
+
+App.js
+
+var app = angular.module("tApp", []);
+
+app.controller("tCtrl", function ($scope) {
+
+$scope.toF = function () {
+$scope.f = ($scope.t * 9 / 5 + 32).toFixed(2) + " °F";
+};
+
+$scope.toC = function () {
+$scope.c = (($scope.t - 32) * 5 / 9).toFixed(2) + " °C";
+};
+
+});
+
+Home.cs
+
+using System.Web.Mvc;
+
+public ActionResult Temperature()
+{
+return View();
+}
+
+
+Q.4
+Aim: To create web application using server control with validation
+Code
+
+New.aspx
+
+<html>
+<head runat="server">
+<title>Validation Example</title>
+</head>
+<body>
+
+<form id="form1" runat="server">
+
+<div>
+
+Name:
+<asp:TextBox ID="txtName" runat="server" />
+
+<asp:RequiredFieldValidator 
+ID="valName"
+ControlToValidate="txtName"
+ErrorMessage="enter name"
+runat="server" />
+
+<br><br>
+
+Age:
+<asp:TextBox ID="txtAge" runat="server" />
+
+<asp:RangeValidator
+ID="valAge"
+ControlToValidate="txtAge"
+MinimumValue="1"
+MaximumValue="80"
+ErrorMessage="not in range"
+Type="Integer"
+runat="server" />
+
+<br><br>
+
+Email:
+<asp:TextBox ID="txtEmail" runat="server" />
+
+<asp:RegularExpressionValidator
+ID="valEmail"
+ControlToValidate="txtEmail"
+ValidationExpression="^\w+@\w+\.\w+$"
+ErrorMessage="invalid"
+runat="server" />
+
+<br><br>
+
+<asp:Button ID="btnSubmit" runat="server" Text="Submit" />
+
+</div>
+
+</form>
+
+</body>
+</html>
+
+New.aspx.cs
+
+using System;
+
+public partial class NewPage : System.Web.UI.Page
+{
+protected void Page_Load(object sender, EventArgs e)
+{
+}
+}
+Q.5 (A)
+Aim: To work with connected database. It should update, insert, delete, select.
+Code
+
+Default.aspx
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="FSD._Default" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+<title>CRUD Operations</title>
+</head>
+
+<body>
+
+<form id="form1" runat="server">
+
+<h2>CRUD Operations with SQL Server</h2>
+
+ID:
+<asp:TextBox ID="txtId" runat="server"></asp:TextBox>
+<br><br>
+
+Name:
+<asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+<br><br>
+
+Age:
+<asp:TextBox ID="txtAge" runat="server"></asp:TextBox>
+<br><br>
+
+Email:
+<asp:TextBox ID="txtEmail" runat="server"></asp:TextBox>
+<br><br>
+
+Password:
+<asp:TextBox ID="txtPassword" runat="server"></asp:TextBox>
+<br><br>
+
+<asp:Button ID="btnInsert" runat="server" Text="Insert" OnClick="btnInsert_Click"/>
+<asp:Button ID="btnUpdate" runat="server" Text="Update" OnClick="btnUpdate_Click"/>
+<asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click"/>
+<asp:Button ID="btnSelect" runat="server" Text="Select" OnClick="btnSelect_Click"/>
+
+<br><br>
+
+<asp:Label ID="lblMessage" runat="server"></asp:Label>
+
+<br><br>
+
+<asp:GridView ID="GridView1" runat="server"></asp:GridView>
+
+</form>
+
+</body>
+</html>
+
+Default.aspx.cs
+
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.UI;
+
+namespace FSD
+{
+public partial class _Default : Page
+{
+
+string connectionString =
+"Data Source=DESKTOP-5UKLBLT\\SQLEXPRESS;Initial Catalog=FSD;Integrated Security=True";
+
+protected void Page_Load(object sender, EventArgs e)
+{
+if (!IsPostBack)
+{
+LoadData();
+}
+}
+
+void LoadData()
+{
+using (SqlConnection con = new SqlConnection(connectionString))
+{
+SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Users", con);
+DataTable dt = new DataTable();
+da.Fill(dt);
+
+GridView1.DataSource = dt;
+GridView1.DataBind();
+}
+}
+
+protected void btnInsert_Click(object sender, EventArgs e)
+{
+using (SqlConnection con = new SqlConnection(connectionString))
+{
+string query = "INSERT INTO Users (Name, Age, Email, Password) VALUES (@Name,@Age,@Email,@Password)";
+
+SqlCommand cmd = new SqlCommand(query, con);
+
+cmd.Parameters.AddWithValue("@Name", txtName.Text);
+cmd.Parameters.AddWithValue("@Age", txtAge.Text);
+cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
+cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
+
+con.Open();
+cmd.ExecuteNonQuery();
+}
+
+lblMessage.Text = "Inserted Successfully";
+LoadData();
+}
+
+protected void btnUpdate_Click(object sender, EventArgs e)
+{
+using (SqlConnection con = new SqlConnection(connectionString))
+{
+string query = "UPDATE Users SET Name=@Name,Age=@Age,Email=@Email,Password=@Password WHERE Id=@Id";
+
+SqlCommand cmd = new SqlCommand(query, con);
+
+cmd.Parameters.AddWithValue("@Id", txtId.Text);
+cmd.Parameters.AddWithValue("@Name", txtName.Text);
+cmd.Parameters.AddWithValue("@Age", txtAge.Text);
+cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
+cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
+
+con.Open();
+cmd.ExecuteNonQuery();
+}
+
+lblMessage.Text = "Updated Successfully";
+LoadData();
+}
+
+protected void btnDelete_Click(object sender, EventArgs e)
+{
+using (SqlConnection con = new SqlConnection(connectionString))
+{
+string query = "DELETE FROM Users WHERE Id=@Id";
+
+SqlCommand cmd = new SqlCommand(query, con);
+
+cmd.Parameters.AddWithValue("@Id", txtId.Text);
+
+con.Open();
+cmd.ExecuteNonQuery();
+}
+
+lblMessage.Text = "Deleted Successfully";
+LoadData();
+}
+
+protected void btnSelect_Click(object sender, EventArgs e)
+{
+using (SqlConnection con = new SqlConnection(connectionString))
+{
+string query = "SELECT * FROM Users WHERE Id=@Id";
+
+SqlCommand cmd = new SqlCommand(query, con);
+
+cmd.Parameters.AddWithValue("@Id", txtId.Text);
+
+con.Open();
+
+SqlDataReader dr = cmd.ExecuteReader();
+
+if (dr.Read())
+{
+txtName.Text = dr["Name"].ToString();
+txtAge.Text = dr["Age"].ToString();
+txtEmail.Text = dr["Email"].ToString();
+txtPassword.Text = dr["Password"].ToString();
+lblMessage.Text = "Record Found";
+}
+else
+{
+lblMessage.Text = "Record Not Found";
+}
+}
+}
+
+}
+}
+Q.5 (B)
+Aim: To work with disconnected database. It should update, insert, delete, select.
+Code
+
+Default.aspx
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="FSD._Default" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+<title>Disconnected CRUD Example</title>
+</head>
+
+<body>
+
+<form id="form1" runat="server">
+
+<h2>Disconnected Database CRUD</h2>
+
+ID:
+<asp:TextBox ID="txtId" runat="server"></asp:TextBox>
+<br><br>
+
+Name:
+<asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+<br><br>
+
+Age:
+<asp:TextBox ID="txtAge" runat="server"></asp:TextBox>
+<br><br>
+
+Email:
+<asp:TextBox ID="txtEmail" runat="server"></asp:TextBox>
+<br><br>
+
+Password:
+<asp:TextBox ID="txtPassword" runat="server"></asp:TextBox>
+<br><br>
+
+<asp:Button ID="btnInsert" runat="server" Text="Insert" OnClick="btnInsert_Click"/>
+<asp:Button ID="btnUpdate" runat="server" Text="Update" OnClick="btnUpdate_Click"/>
+<asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click"/>
+<asp:Button ID="btnSelect" runat="server" Text="Select" OnClick="btnSelect_Click"/>
+
+<br><br>
+
+<asp:Label ID="lblMessage" runat="server"></asp:Label>
+
+<hr>
+
+<asp:GridView ID="GridView1" runat="server"></asp:GridView>
+
+</form>
+
+</body>
+</html>
+
+Default.aspx.cs
+
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace FSD
+{
+public partial class _Default : System.Web.UI.Page
+{
+
+string connectionString =
+"Data Source=DESKTOP-5UKLBLT\\SQLEXPRESS;Initial Catalog=FSD;Integrated Security=True";
+
+SqlDataAdapter da;
+DataSet ds;
+
+protected void Page_Load(object sender, EventArgs e)
+{
+if (!IsPostBack)
+LoadData();
+}
+
+void LoadData()
+{
+using (SqlConnection con = new SqlConnection(connectionString))
+{
+da = new SqlDataAdapter("SELECT * FROM Users", con);
+ds = new DataSet();
+
+da.Fill(ds, "Users");
+
+GridView1.DataSource = ds.Tables["Users"];
+GridView1.DataBind();
+}
+}
+
+protected void btnInsert_Click(object sender, EventArgs e)
+{
+using (SqlConnection con = new SqlConnection(connectionString))
+{
+da = new SqlDataAdapter("SELECT * FROM Users", con);
+
+SqlCommandBuilder cb = new SqlCommandBuilder(da);
+
+ds = new DataSet();
+
+da.Fill(ds, "Users");
+
+DataRow row = ds.Tables["Users"].NewRow();
+
+row["Name"] = txtName.Text;
+row["Age"] = txtAge.Text;
+row["Email"] = txtEmail.Text;
+row["Password"] = txtPassword.Text;
+
+ds.Tables["Users"].Rows.Add(row);
+
+da.Update(ds, "Users");
+}
+
+lblMessage.Text = "Inserted Successfully";
+LoadData();
+}
+
+protected void btnUpdate_Click(object sender, EventArgs e)
+{
+using (SqlConnection con = new SqlConnection(connectionString))
+{
+da = new SqlDataAdapter("SELECT * FROM Users WHERE Id=" + txtId.Text, con);
+
+SqlCommandBuilder cb = new SqlCommandBuilder(da);
+
+ds = new DataSet();
+
+da.Fill(ds, "Users");
+
+if (ds.Tables["Users"].Rows.Count > 0)
+{
+DataRow row = ds.Tables["Users"].Rows[0];
+
+row["Name"] = txtName.Text;
+row["Age"] = txtAge.Text;
+row["Email"] = txtEmail.Text;
+row["Password"] = txtPassword.Text;
+
+da.Update(ds, "Users");
+
+lblMessage.Text = "Updated Successfully";
+}
+else
+{
+lblMessage.Text = "Record Not Found";
+}
+}
+
+LoadData();
+}
+
+protected void btnDelete_Click(object sender, EventArgs e)
+{
+using (SqlConnection con = new SqlConnection(connectionString))
+{
+da = new SqlDataAdapter("SELECT * FROM Users WHERE Id=" + txtId.Text, con);
+
+SqlCommandBuilder cb = new SqlCommandBuilder(da);
+
+ds = new DataSet();
+
+da.Fill(ds, "Users");
+
+if (ds.Tables["Users"].Rows.Count > 0)
+{
+ds.Tables["Users"].Rows[0].Delete();
+
+da.Update(ds, "Users");
+
+lblMessage.Text = "Deleted Successfully";
+}
+else
+{
+lblMessage.Text = "Record Not Found";
+}
+}
+
+LoadData();
+}
+
+protected void btnSelect_Click(object sender, EventArgs e)
+{
+using (SqlConnection con = new SqlConnection(connectionString))
+{
+da = new SqlDataAdapter("SELECT * FROM Users WHERE Id=" + txtId.Text, con);
+
+ds = new DataSet();
+
+da.Fill(ds, "Users");
+
+if (ds.Tables["Users"].Rows.Count > 0)
+{
+DataRow row = ds.Tables["Users"].Rows[0];
+
+txtName.Text = row["Name"].ToString();
+txtAge.Text = row["Age"].ToString();
+txtEmail.Text = row["Email"].ToString();
+txtPassword.Text = row["Password"].ToString();
+
+lblMessage.Text = "Record Found";
+}
+else
+{
+lblMessage.Text = "Record Not Found";
+}
+}
+}
+
+}
+}
