@@ -1,0 +1,39 @@
+--- Git --- 
+git init 
+git add . 
+git commit -m "msg" 
+git push -u origin master 
+git pull 
+git branch <name> 
+git checkout <name> 
+git merge <name> 
+
+
+--- Docker --- 
+docker build -t <image-name> . 
+docker run -it <image-name> 
+docker tag <image> user/<image> 
+docker push user/<image> 
+docker login 
+docker network create --driver bridge <network-name> 
+docker network ls 
+docker network inspect <network-name> 
+docker run -it --network <network-name> <image-name> 
+docker compose up --build -d 
+docker compose down 
+docker swarm init 
+docker swarm leave --force 
+docker service create --name <n> --replicas <r> --publish published=<hp>,target=<cp> <image> 
+docker service ls 
+docker service ps <name> 
+docker service rm <name> 
+docker node ls 
+
+
+--- Kubernetes --- 
+kubectl apply -f deployment.yaml 
+kubectl get pods 
+kubectl logs <pod-name> 
+kubectl exec -it <pod-name> -- python app.py 
+kubectl delete deployment <name> 
+kubectl describe pod <pod-name>
