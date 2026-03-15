@@ -1,0 +1,248 @@
+﻿================================================================
+DEVOPS PRACTICALS - COMMANDS & CODE REFERENCE
+KC College | T.Y. B.Sc. I.T. | Sem VI | Roll No: 06
+================================================================
+
+
+
+
+================================================================
+PRACTICAL 1 - Git Version Control (Basic)
+================================================================
+
+
+git init
+git status
+git add .
+git add -A
+git config --global user.email "email"
+git config --global user.name "name"
+git commit -m "updated"
+git config --list
+git restore --staged Text.txt
+git branch
+git branch feature-branch
+git checkout feature-branch
+git merge feature-branch
+
+
+
+
+================================================================
+PRACTICAL 2 - Git Remote (GitHub Push/Pull)
+================================================================
+
+
+git checkout master
+git remote add origin https://github.com/user/repo.git
+git branch
+git checkout master
+git push -u origin master
+git pull
+
+
+
+
+================================================================
+PRACTICAL 3 - Docker: Java App
+================================================================
+
+
+--- File.java ---
+import java.util.Scanner;
+
+
+class file
+{
+    public static void main(String args[])
+    {
+        Scanner scan = new Scanner(System.in);
+        String name = scan.nextLine();
+        System.out.println("Name of user is: " + name);
+    }
+}
+
+
+--- Dockerfile ---
+FROM eclipse-temurin:21-jdk
+WORKDIR /app
+COPY file.java .
+RUN javac file.java
+CMD ["java", "file"]
+
+
+--- Commands ---
+docker build -t java-docker-name .
+docker run -it java-docker-name
+
+
+
+
+================================================================
+PRACTICAL 4 - Docker: Python App
+================================================================
+
+
+--- app.py ---
+print("I am confused")
+
+
+--- Dockerfile ---
+FROM python:3.11-slim
+WORKDIR /app
+COPY app.py .
+CMD ["python", "app.py"]
+
+
+--- Commands ---
+docker build -t python-docker-user .
+docker run -it python-docker-user
+
+
+
+
+================================================================
+PRACTICAL 5 - Node.js Express Server
+================================================================
+
+
+--- server.js ---
+import express from "express";
+const app = express();
+const port = 3000;
+
+
+app.get("/", (req, res) => {
+    res.send("Hello People");
+});
+
+
+app.listen(port, () => {
+    console.log("server is running");
+});
+
+
+--- Commands ---
+npm install express
+node server.js
+
+
+
+
+================================================================
+PRACTICAL 6 - Docker Compose + Docker Swarm
+================================================================
+
+
+--- Commands ---
+docker build -t java-docker-user .
+docker compose up --build -d
+docker swarm init
+docker node ls
+docker service create --name web --replicas 1 --publish published=8000,target=80 nginx:alpine
+docker service ls
+docker service ps web
+docker service create --name web2 --replicas 2 --publish published=8001,target=80 nginx:alpine
+
+
+
+
+================================================================
+PRACTICAL 7 - Docker Networking (Bridge)
+================================================================
+
+
+--- Commands ---
+docker build -t java-docker-user .
+docker network create --driver bridge my_bridge_user
+docker network ls
+docker network inspect my_bridge_user
+docker run -it --network my_bridge_user java-docker-user
+
+
+
+
+================================================================
+PRACTICAL 8 - Kubernetes: Deploy Java App
+================================================================
+
+
+--- deployment.yaml ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: javafirst-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: javafirst
+  template:
+    metadata:
+      labels:
+        app: javafirst
+    spec:
+      containers:
+      - name: javafirst
+        image: hersheyy/java-docker-user
+
+
+--- Commands ---
+docker build -t java-docker-user .
+docker tag java-docker-user hersheyy/java-docker-user
+docker push hersheyy/java-docker-user
+kubectl apply -f deployment.yaml
+kubectl get pods
+kubectl logs javafirst-deployment-56985bcb68-wvzjw
+
+
+
+
+================================================================
+PRACTICAL 9 - Kubernetes: Deploy Python App
+================================================================
+
+
+--- app.py ---
+import sys
+import math
+
+
+n = int(sys.argv[1])
+print("Factorial:", math.factorial(n))
+
+
+--- deployment.yaml ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pythonfirst-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pythonfirst
+  template:
+    metadata:
+      labels:
+        app: pythonfirst
+    spec:
+      containers:
+      - name: pythonfirst
+        image: hersheyy/python-docker-user
+
+
+--- Commands ---
+docker build -t python-docker-user .
+docker login
+docker push hersheyy/python-docker-user
+kubectl apply -f deployment.yaml
+kubectl get pods
+kubectl exec -it pythonfirst-deployment-575d459867-ffckk -- python app.py 6
+
+
+
+
+================================================================
+END
+================================================================

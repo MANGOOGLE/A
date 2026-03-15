@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DevOps Swarm Practical</title>
+</head>
+<body>
+    <h1>Docker-compose HTML </h1>
+    <p>Successful build by Abdul Rehman</p>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+// docker swarm init
+
+// docker node ls
+
+// docker service create --name web --replicas 1 --publish published=8080,target=80 nginx:alpine
+
+//https://localhost:8080
+
+// docker service ls
+
+// docker service ps web
+
+// docker service rm web
+
+// docker service create --name web --replicas 2 --publish published=8080,target=80 --mount type=bind,source=%cd%\index.html,target=/usr/share/nginx/html/index.html nginx:alpine
+
+//https://localhost:8080
+
+// docker service rm web

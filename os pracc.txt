@@ -1,0 +1,415 @@
+
+DevOps
+Complete Revision Guide & Cheatsheet
+T.Y. B.Sc. I.T. • Semester VI • KC College
+Harshwardhan Chauhan  |  Roll No: 06  |  Practicals 1–9
+
+
+
+Practical	Topic
+P1 & P2	Git — Version Control Basics
+P3	Docker — Java App Containerization
+P4	Docker — Python App Containerization
+P5	Node.js + Express Web Server
+P6	Docker Compose (multi-service)
+P7	Docker Networking (bridge)
+P8	Kubernetes — Deploy Java App
+P9	Kubernetes — Deploy Python App
+ 
+Practicals 1 & 2 — Git Version Control
+Git is a distributed version control system. These practicals cover initializing a local repo, committing files, branching, merging, and pushing to GitHub.
+
+Step-by-Step: Practical 1
+Goal: Initialize a repo, commit a file, create a branch, and merge it.
+
+Command	Purpose
+git init	Initialize empty Git repository in current folder
+git status	Show working tree status (untracked, staged, modified)
+git add .	Stage all files in current directory
+git add -A	Stage all changes (new, modified, deleted)
+git config --global user.email "email@mail.com"	Set global email for commits
+git config --global user.name "Name"	Set global username for commits
+git commit -m "message"	Commit staged files with a message
+git config --list	Show all git configuration settings
+git branch	List branches (* = current)
+git branch feature-branch	Create a new branch called feature-branch
+git checkout feature-branch	Switch to feature-branch
+git merge feature-branch	Merge feature-branch into current branch
+
+Step-by-Step: Practical 2
+Goal: Add a remote (GitHub), push local commits, and pull from remote.
+
+Command	Purpose
+git remote add origin https://github.com/user/repo.git	Link local repo to remote GitHub repo
+git push -u origin master	Push local master branch to origin; -u sets upstream tracking
+git pull	Fetch + merge from remote (requires upstream set)
+git branch	Shows all branches; current highlighted
+git checkout master	Switch back to master branch
+
+Complete Workflow (P1 + P2)
+Full Git Workflow — Commands in Order
+git init
+git status
+git add .
+git config --global user.email "harsh15022803@gmail.com"
+git config --global user.name "harshwar"
+git commit -m "updated"
+git config --list
+git branch feature-branch
+git checkout feature-branch
+git merge feature-branch
+git remote add origin https://github.com/harshwar/repo.git
+git push -u origin master
+git pull
+git checkout master
+
+Key Concepts — Git Viva Points
+•	git init creates a hidden .git folder that tracks all history
+•	Staging area (index) is between working dir and committed history
+•	git add moves files to staging; git commit saves the snapshot
+•	-u in git push sets upstream so future git push/pull work without args
+•	Branches are lightweight pointers to commits
+•	Merging integrates changes from one branch into another
+•	origin is the conventional name for the remote repository
+•	git config --list shows all local + global + system settings
+ 
+Practical 3 — Docker: Containerize a Java App
+Goal: Write a Java program, create a Dockerfile, build an image, and run it interactively.
+
+Files You Need
+File.java
+File.java
+import java.util.Scanner;
+
+class file {
+    public static void main(String args[]) {
+        Scanner scan = new Scanner(System.in);
+        String name = scan.nextLine();
+        System.out.println("Name of user is: " + name);
+    }
+}
+
+Dockerfile
+Dockerfile
+FROM eclipse-temurin:21-jdk
+WORKDIR /app
+COPY file.java .
+RUN javac file.java
+CMD ["java", "file"]
+
+Build & Run Commands
+Command	Purpose
+docker build -t java-docker-harshwardhan .	Build image named java-docker-harshwardhan from Dockerfile in .
+docker run -it java-docker-harshwardhan	Run container in interactive + tty mode (needed for Scanner input)
+
+Dockerfile Instructions Explained
+Command	Purpose
+FROM eclipse-temurin:21-jdk	Base image with Java 21 JDK from Eclipse Temurin
+WORKDIR /app	Set working directory inside container to /app
+COPY file.java .	Copy file.java from host into /app in container
+RUN javac file.java	Compile the Java file during image build
+CMD ["java", "file"]	Default command to run when container starts
+
+Viva Points
+•	eclipse-temurin is the open-source JDK distribution (replaces AdoptOpenJDK)
+•	-it flag: -i = keep STDIN open, -t = allocate pseudo-TTY (needed for Scanner)
+•	RUN executes at build time; CMD executes at container start
+•	WORKDIR creates the dir if it doesn't exist and sets it as default
+•	COPY copies files from build context (host) into image
+ 
+Practical 4 — Docker: Containerize a Python App
+Goal: Write a Python script, create a Dockerfile using python:3.11-slim, build and run it.
+
+Files You Need
+app.py
+app.py
+print("I am confused")
+
+Dockerfile
+Dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY app.py .
+CMD ["python", "app.py"]
+
+Build & Run Commands
+Command	Purpose
+docker build -t python-docker-harsh .	Build image named python-docker-harsh
+docker run -it python-docker-harsh	Run container (output: I am confused)
+
+Differences from P3 (Java)
+Language	Key Difference
+Python	No compile step; CMD runs python directly
+Java	Needs RUN javac to compile, then CMD java to run
+python:3.11-slim	Slim Python base (smaller image size)
+eclipse-temurin:21-jdk	Full JDK base for Java
+
+Viva Points
+•	python:3.11-slim is a minimal Python image (no extras, smaller size)
+•	No RUN step needed for Python since it’s interpreted
+•	CMD vs ENTRYPOINT: CMD can be overridden at runtime; ENTRYPOINT cannot
+•	docker run without -it works for non-interactive scripts
+ 
+Practical 5 — Node.js Express Web Server
+Goal: Create a simple Express.js server, install dependencies with npm, and run it locally.
+
+Files You Need
+server.js
+server.js
+import express from "express";
+const app = express();
+const port = 3000;
+
+app.get("/", (req, res) => {
+    res.send("Hello People");
+});
+
+app.listen(port, () => {
+    console.log("server is running");
+});
+
+Commands in Order
+Command	Purpose
+npm install express	Download and install the express package into node_modules
+node server.js	Start the server (console shows: server is running)
+
+Then open browser at: http://localhost:3000 → shows "Hello People"
+
+Viva Points
+•	Express is a minimal web framework for Node.js
+•	app.get("/", ...) handles HTTP GET requests to the root route
+•	res.send() sends a response back to the client
+•	app.listen(port, callback) starts the server on the specified port
+•	npm install reads package.json or directly installs the named module
+•	import/export syntax requires type: module in package.json (ESM)
+ 
+Practical 6 — Docker Compose (Multi-Service)
+Goal: Use docker-compose.yml to define and run multiple containers (Java app + busybox) together. Also introduces Docker Swarm services.
+
+Key Concepts
+•	Docker Compose orchestrates multi-container apps from a single YAML file
+•	docker compose up --build -d: builds images and starts containers in detached mode
+•	Services defined in compose file can communicate via service name as hostname
+
+Important Commands
+Command	Purpose
+docker build -t java-docker-harsh .	Build image before composing
+docker compose up --build -d	Build + start all services in background
+docker swarm init	Initialize this node as a Docker Swarm manager
+docker node ls	List nodes in swarm (ID, hostname, status, role)
+docker service create --name web --replicas 1 --publish published=8000,target=80 nginx:alpine	Create a swarm service running nginx
+docker service ls	List running services in swarm
+docker service ps web	Show tasks (containers) of service web
+docker service create --name web2 --replicas 2 --publish published=8001,target=80 nginx:alpine	Create another service on port 8001
+
+Swarm Key Terms
+•	Swarm — cluster of Docker nodes managed together
+•	Manager node — controls the swarm, schedules tasks
+•	Worker node — runs container tasks assigned by manager
+•	Service — desired state definition (image, replicas, ports)
+•	Task — a single running container instance of a service
+•	Replica — number of task instances to run
+
+Viva Points
+•	docker swarm init outputs a token for adding worker nodes
+•	--replicas N runs N copies of the container for load balancing
+•	published=8000,target=80 maps host port 8000 to container port 80
+•	Swarm uses overlay networks for cross-node container communication
+•	docker-desktop node acts as both manager and worker in single-node setup
+ 
+Practical 7 — Docker Networking (Bridge Network)
+Goal: Create a custom bridge network, connect containers to it, and run an app using that network.
+
+Commands in Order
+Command	Purpose
+docker build -t java-docker-harsh .	Build the image (Python or Java app)
+docker network create --driver bridge my_bridge_harsh	Create a custom bridge network
+docker network ls	List all Docker networks (bridge, host, overlay, none)
+docker network inspect my_bridge_harsh	Show detailed info: subnet, gateway, connected containers
+docker run -it --network my_bridge_harsh java-docker-harsh	Run container connected to the custom network
+
+Network Types in Docker
+Driver	Description
+bridge	Default. Containers on same bridge can communicate. Isolated from host.
+host	Container shares host network stack directly
+overlay	Multi-host networking for Docker Swarm
+none	No networking for the container
+
+docker network inspect Output Fields
+Field	Meaning
+Name	Network name (my_bridge_harsh)
+Driver	bridge
+Scope	local (single host)
+IPAM → Subnet	172.18.0.0/16 (auto-assigned range)
+IPAM → Gateway	172.18.0.1
+Containers	Shows connected containers with their IPs
+
+Viva Points
+•	Default bridge (docker0) doesn’t support DNS; custom bridge does
+•	Containers on the same custom bridge resolve each other by name
+•	Subnet 172.18.0.0/16 provides 65,531 dynamic IPs
+•	docker network connect <network> <container> adds running container to a network
+ 
+Practical 8 — Kubernetes: Deploy Java App
+Goal: Build a Java Docker image, push to Docker Hub, and deploy to Kubernetes using a deployment YAML.
+
+Step-by-Step Flow
+Command	Purpose
+docker build -t java-docker-harsh .	Build image locally
+docker tag java-docker-harsh hersheyy/java-docker-harsh	Tag image with Docker Hub username
+docker push hersheyy/java-docker-harsh	Push tagged image to Docker Hub registry
+kubectl apply -f deployment.yaml	Create/update Kubernetes deployment from YAML
+kubectl get pods	List pods and their status (ContainerCreating → Running)
+kubectl logs javafirst-deployment-xxxxx	View stdout output of a specific pod
+
+deployment.yaml structure
+deployment.yaml (Java)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: javafirst-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: javafirst
+  template:
+    metadata:
+      labels:
+        app: javafirst
+    spec:
+      containers:
+      - name: javafirst
+        image: hersheyy/java-docker-harsh
+
+Kubernetes Key Terms
+Term	Meaning
+Pod	Smallest deployable unit; wraps one or more containers
+Deployment	Manages ReplicaSets; handles rolling updates & scaling
+ReplicaSet	Ensures N pod replicas are always running
+kubectl	CLI tool to interact with Kubernetes cluster
+kubectl apply -f	Declarative: create or update resources from YAML
+kubectl get pods	Lists pods with name, ready state, status, restarts, age
+kubectl logs	Stream stdout of a container inside a pod
+
+Viva Points
+•	Must push image to registry (Docker Hub) so K8s can pull it
+•	docker tag creates an alias; original image unchanged
+•	kubectl apply is idempotent — safe to run multiple times
+•	ContainerCreating → Running is normal startup sequence
+•	Deployment YAML: apiVersion, kind, metadata, spec are the 4 root keys
+•	labels + matchLabels must match for Deployment to manage its Pods
+ 
+Practical 9 — Kubernetes: Deploy Python App
+Goal: Build a Python Docker image, push to Hub, deploy alongside the Java app, and exec into the pod.
+
+Commands in Order
+Command	Purpose
+docker build -t python-docker-harsh .	Build Python image
+docker login	Authenticate to Docker Hub (uses saved credentials)
+docker push hersheyy/python-docker-harsh	Push Python image to registry
+kubectl apply -f deployment.yaml	Deploy Python app (creates pythonfirst-deployment)
+kubectl get pods	Verify both java + python pods are Running
+kubectl exec -it pythonfirst-deployment-xxx -- python app.py 6	Exec into pod and run app.py with arg 6 (Factorial: 720)
+
+kubectl exec Explained
+kubectl exec syntax
+kubectl exec -it <pod-name> -- <command>
+
+Example from practical:
+kubectl exec -it pythonfirst-deployment-575d459867-ffckk -- python app.py 6
+
+Output: Factorial: 720
+
+app.py for P9 (Factorial)
+app.py
+import sys
+import math
+
+n = int(sys.argv[1])
+print("Factorial:", math.factorial(n))
+
+Difference: P8 vs P9
+Aspect	P8 (Java)	P9 (Python)
+Language	Java (eclipse-temurin:21-jdk)	Python (python:3.11-slim)
+Input	Scanner from stdin	sys.argv from command line
+Exec method	kubectl logs (output in log)	kubectl exec with args
+Image name	hersheyy/java-docker-harsh	hersheyy/python-docker-harsh
+
+Viva Points
+•	kubectl exec -it opens interactive terminal inside running pod
+•	-- separates kubectl options from the command to run inside the pod
+•	Both deployments can run simultaneously on the same K8s cluster
+•	docker login stores credentials in ~/.docker/config.json
+•	Each pod gets a unique suffix (hash) auto-generated by K8s
+ 
+Master Cheatsheet — All Commands at a Glance
+
+Git Commands
+Command	Purpose
+git init	Initialize new repo
+git status	Check staged/unstaged files
+git add .	Stage all files
+git commit -m "msg"	Commit with message
+git branch <name>	Create branch
+git checkout <name>	Switch to branch
+git merge <name>	Merge branch into current
+git remote add origin <url>	Link to remote
+git push -u origin master	Push + set upstream
+git pull	Fetch + merge from remote
+git config --list	Show all config
+git config --global user.name ""	Set username globally
+
+Docker Commands
+Command	Purpose
+docker build -t <name> .	Build image from Dockerfile
+docker run -it <name>	Run container (interactive)
+docker run <name>	Run container (non-interactive)
+docker run --network <net> <name>	Run with specific network
+docker tag <img> <user>/<img>	Tag image for Docker Hub
+docker push <user>/<img>	Push image to Docker Hub
+docker login	Authenticate to Docker Hub
+docker network create --driver bridge <name>	Create custom bridge network
+docker network ls	List all networks
+docker network inspect <name>	Show network details + connected containers
+docker compose up --build -d	Build + start compose services in background
+docker swarm init	Initialize swarm manager
+docker service create --name <n> --replicas <r> --publish <p>:<p> <img>	Create swarm service
+docker service ls	List swarm services
+docker service ps <name>	Show tasks of a service
+docker node ls	List swarm nodes
+
+Kubernetes (kubectl) Commands
+Command	Purpose
+kubectl apply -f deployment.yaml	Create/update K8s resources
+kubectl get pods	List pods + status
+kubectl logs <pod-name>	View pod stdout logs
+kubectl exec -it <pod> -- <cmd>	Run command inside pod
+kubectl get deployments	List deployments
+kubectl delete -f deployment.yaml	Delete resources from YAML
+
+Dockerfile Quick Reference
+Command	Purpose
+FROM <image>	Base image (must be first instruction)
+WORKDIR /path	Set working directory in container
+COPY <src> <dst>	Copy files from host to container
+RUN <command>	Execute command during build (creates layer)
+CMD ["cmd", "arg"]	Default command at container start (overridable)
+ENTRYPOINT ["cmd"]	Fixed command at container start (not overridable)
+EXPOSE <port>	Documents the port the app listens on
+ENV KEY=VALUE	Set environment variable
+
+Quick Practical Summary
+Practical	Core Commands / Concepts
+P1	git init, add, commit, branch, checkout, merge
+P2	git remote add, push -u, pull
+P3	Docker + Java: build java-docker-harshwardhan, run -it
+P4	Docker + Python: build python-docker-harsh, run
+P5	Node.js Express: npm install express, node server.js
+P6	Docker Compose + Swarm: compose up, swarm init, service create
+P7	Bridge Network: network create, inspect, run --network
+P8	K8s Java: build, tag, push, kubectl apply, get pods, logs
+P9	K8s Python: build, push, apply, exec -it -- python app.py 6
+
+Best of luck, Harshu! 💪
+KC College • DevOps • Sem VI • 2025-26

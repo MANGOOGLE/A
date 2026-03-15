@@ -1,0 +1,21 @@
+version: "3.8"
+
+networks:
+  my_bridge_tybscit:
+    driver: bridge
+
+services:
+  java_app:
+    build: .
+    container_name: java_app
+    networks:
+      - my_bridge_tybscit
+
+  toolbox:
+    image: busybox:latest
+    container_name: toolbox
+    command: sleep 3600
+    networks:
+      my_bridge_tybscit:
+        aliases:
+          - helper

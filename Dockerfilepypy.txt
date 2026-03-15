@@ -1,0 +1,6 @@
+FROM python:3.11-slim
+WORKDIR /app
+RUN pip install pandas 
+COPY analysis.py .
+COPY sales_data.csv .
+CMD ["python", "analysis.py"]
